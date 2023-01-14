@@ -6,12 +6,13 @@ const create = (() => {
     // basic helper factories
     const button = function(content, state, ...args) {
         _attributes = [...args];
-        element = document.createElement('div');
+        element = document.createElement('button');
         if (_attributes.length > 0) {
             _setAttributes(element, _attributes);
         }
+        element.type = 'button';
         element.role = 'button';
-        element.name = content;
+        element.textContent = content;
         element.value = state;
         // aria-pressed
         _attributes = [];
