@@ -1,9 +1,27 @@
-// data
-let _attributes = [];
-let element;
-
 const create = (() => {
+    // data
+    let _attributes = [];
+    let element;
+
     // basic helper factories
+    const button = function(content, state, ...args) {
+        _attributes = [...args];
+        element = document.createElement('div');
+        if (_attributes.length > 0) {
+            _setAttributes(element, _attributes);
+        }
+        element.role = 'button';
+        element.name = content;
+        element.value = state;
+        // aria-pressed
+        _attributes = [];
+        return element;
+    }
+
+
+
+
+    
     const div = function(content, ...args) {
         _attributes = [...args];
         element = document.createElement('div');
@@ -150,6 +168,7 @@ const create = (() => {
 
     return {
         div,    // used by ui.js
+        button,    // used by ui.js
     }
 
 })();
