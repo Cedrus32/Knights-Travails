@@ -1,0 +1,11 @@
+#board,
+.row {
+    display: flex;
+}
+
+#board {
+    flex-flow: column;
+}
+.row {
+    flex-flow: row;
+}

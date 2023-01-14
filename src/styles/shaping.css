@@ -1,0 +1,9 @@
+#board {
+    height: auto;
+    width: auto;
+}
+
+.cell {
+    height: 100px;
+    width: 100px;
+}

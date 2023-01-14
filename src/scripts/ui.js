@@ -18,8 +18,8 @@ const genUI = (() => {
     // methods
     function init() {
         genControls();
+        genBoard();
     }
-
     function genControls() {
         let controls = ['place knight', 'place end', 'randomize', 'travail', 'clear', '# moves: '];
         let placeControls = create.div('', '');
@@ -31,6 +31,31 @@ const genUI = (() => {
             } else {
                 controlContainer.append(control);
             }
+        }
+    }
+    function genBoard() {
+        for (let i = 0; i < 8; i++) {
+            let row = create.div('', '.row');
+            for (let j = 0; j < 8; j++) {
+                let cell = create.div('', '.cell');
+                if (i === 0 || i % 2 === 0) {
+                    // light-dark
+                    if (j === 0 || j % 2 === 0) {
+                        cell.classList.add('light');
+                    } else {
+                        cell.classList.add('dark');
+                    }
+                } else {
+                    // dark-light
+                    if (j === 0 || j % 2 === 0) {
+                        cell.classList.add('dark');
+                    } else {
+                        cell.classList.add('light');
+                    }
+                }
+                row.append(cell);
+            }
+            boardContainer.append(row);
         }
     }
 
