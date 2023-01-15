@@ -4,52 +4,41 @@ import create from './create.js';
 // & generates ui
 
 const genUI = (() => {
-    // data
-    let currentControl = '';
-
     // cache DOM
     let controlContainer = document.getElementById('controls');
-    let placementControls;
+    let controlButtons;  // cached on creation
     let boardContainer = document.getElementById('board');
 
     // bind eventListeners
     document.addEventListener('click', e => {
-        // ^ pressed button highlighted, previous button un-highlighted (UNLESS travail)
-        // ^ travail pressed, disable placement controls
-        // ^ clear pressed, enable placement controls
         if (e.target.type === 'button') {
-            f (e.target !== currentControl) {
-                if (currentControl !== '') {
-                    currentControl.ariaPressed = 'false';
-                    currentControl.classList.remove('pressed');
-                }
-                e.target.ariaPressed = 'true';
-                e.target.classList.add('pressed');
-                currentControl = e.target;
-                console.log(currentControl);
+            if (e.target.value == 0 || e.target.value == 1) { // place knight OR place end
+                boardContainer.addEventListener('mouseover', addBoardHover);
             }
-        }
+            // ^ remove addBoardHover event listener
+            events.publish('updateState', e.target.value);  // subscribed by state.js
+        };
     });
 
     // methods
     function init() {
         genControls();
-        placementControls = document.querySelectorAll('.placement button');
+        controlButtons = document.querySelectorAll('button');
         genBoard();
     }
     function genControls() {
-        let controls = ['place knight', 'place end', 'randomize', 'travail', 'clear', '# moves: '];
-        let placeControls = create.div('', '.placement');
-        controlContainer.append(placeControls);
-        for (let i = 0; i < (controls.length); i++) {
-            let control = create.button(controls[i], i, '');
+        let controlTitles = ['place knight', 'place end', 'randomize', 'travail', 'clear', '# moves: '];
+        let placeControlContainer = create.div('', '.placement');
+        controlContainer.append(placeControlContainer);
+        for (let i = 0; i < (controlTitles.length - 1); i++) {   // ! -1 for testing only, re-adjust later to include 'moves'
+            let controlButton = create.button(controlTitles[i], i, '');
             if (i < 3) {
-                placeControls.append(control);
+                placeControlContainer.append(controlButton);
             } else {
                 if (i === 5) {
-                    control.id = 'moves';
+                    controlButton.id = 'moves';
                 }
-                controlContainer.append(control);
+                controlContainer.append(controlButton);
             }
         }
     }
@@ -78,8 +67,35 @@ const genUI = (() => {
             boardContainer.append(row);
         }
     }
+    function updateButtons(currentState, previousState) {
+        if (currentState === 3) {
+            // disable placement controls
+            for (let i = 0; i < 3; i++) {
+                controlButtons[i].disabled = true;
+            }
+        }
+        if (currentState === 4) {
+            // enable placement controls
+            for (let i = 0; i < 3; i++) {
+                controlButtons[i].disabled = false;
+            }
+        }
+        if (previousState !== undefined) {  // disregards first click (no previous state)
+            controlButtons[previousState].ariaPressed = false;
+            controlButtons[previousState].classList.remove('pressed');
+        }
+        controlButtons[currentState].ariaPressed = true;
+        controlButtons[currentState].classList.add('pressed');
+    }
+    function addBoardHover(e) {
+        if (e.target.classList.contains('cell')) {
+            // ^ add border on mouse-enter
+            // ^ remove border on mouse-exit
+        }
+    }
 
     // event subscriptions
+    events.subscribe('updateButtons', updateButtons);   // published by state.js
 
     // make public
     return {

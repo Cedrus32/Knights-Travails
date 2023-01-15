@@ -4,6 +4,7 @@ import './styles/typo.css';
 import './styles/shaping.css';
 import './styles/colors.css';
 import events from './events.js';
+import state from './state.js';
 import iconsArray from './scripts/icons.js';
 import knights from './knights.js';
 import genUI from './scripts/ui.js';
