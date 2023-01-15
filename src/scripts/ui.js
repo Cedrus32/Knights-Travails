@@ -30,6 +30,9 @@ const genUI = (() => {
             if (i < 3) {
                 placeControls.append(control);
             } else {
+                if (i === 5) {
+                    control.id = 'moves';
+                }
                 controlContainer.append(control);
             }
         }

@@ -1,4 +1,8 @@
 /* FLEX */
+* {
+    --board-padding: 8px;
+    --board-border: 4px;
+}
 
 body,
 main,
@@ -37,6 +41,10 @@ main {
 
 .placement {
     gap: 1rem;
+}
+
+#moves {
+    margin-top: auto;
 }
 
 #board {
