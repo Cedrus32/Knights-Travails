@@ -1,9 +1,24 @@
-#board {
-    height: auto;
-    width: auto;
+body {
+    width: 100vw;
+    height: 100vh;
 }
 
-.cell {
-    height: 100px;
-    width: 100px;
-}
+    main,
+    #controls,
+    #board,
+    .row {
+        width: auto;
+        height: auto;
+    }
+
+        button {
+            height: auto;
+            width: auto;
+
+            padding: 0.4em;
+        }
+
+        .cell {
+            height: 10vh;
+            width: 10vh;
+        }

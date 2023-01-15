@@ -22,7 +22,7 @@ const genUI = (() => {
     }
     function genControls() {
         let controls = ['place knight', 'place end', 'randomize', 'travail', 'clear', '# moves: '];
-        let placeControls = create.div('', '');
+        let placeControls = create.div('', '.placement');
         controlContainer.append(placeControls);
         for (let i = 0; i < (controls.length); i++) {
             let control = create.button(controls[i], i, '');

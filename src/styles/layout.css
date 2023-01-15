@@ -1,11 +1,44 @@
+/* FLEX */
+
+body,
+main,
+#controls,
+.placement,
 #board,
 .row {
     display: flex;
 }
 
+#controls,
+.placement,
 #board {
     flex-flow: column;
 }
+
+main,
 .row {
     flex-flow: row;
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+}
+
+/* SPACING */
+
+main {
+    gap: 3.5rem;
+}
+
+#controls {
+    gap: 4.5rem;
+}
+
+.placement {
+    gap: 1rem;
+}
+
+#board {
+    padding: 8px;
 }
