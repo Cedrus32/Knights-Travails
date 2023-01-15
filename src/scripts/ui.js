@@ -13,9 +13,10 @@ const genUI = (() => {
     document.addEventListener('click', e => {
         if (e.target.type === 'button') {
             if (e.target.value == 0 || e.target.value == 1) { // place knight OR place end
-                boardContainer.addEventListener('mouseover', addBoardHover);
+                addBoardHover();
+            } else if (e.target.value !== 0 && e.target.value !== 1) {
+                removeBoardHover();
             }
-            // ^ remove addBoardHover event listener
             events.publish('updateState', e.target.value);  // subscribed by state.js
         };
     });
@@ -87,11 +88,11 @@ const genUI = (() => {
         controlButtons[currentState].ariaPressed = true;
         controlButtons[currentState].classList.add('pressed');
     }
-    function addBoardHover(e) {
-        if (e.target.classList.contains('cell')) {
-            // ^ add border on mouse-enter
-            // ^ remove border on mouse-exit
-        }
+    function addBoardHover() {
+        boardContainer.classList.add('hover-true');
+    }
+    function removeBoardHover() {
+        boardContainer.classList.remove('hover-true');
     }
 
     // event subscriptions

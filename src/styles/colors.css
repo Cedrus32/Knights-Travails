@@ -22,13 +22,17 @@ button {
     border: 8px solid #7EAD40;
 }
 
-.dark {
-    background-color: #252861;
-}
+    .dark {
+        background-color: #252861;
+    }
 
-.light {
-    background-color: #383D94;
-}
+    .light {
+        background-color: #383D94;
+    }
+
+    #board.hover-true .cell:hover {
+        border: 2px solid #7EAD40;
+    }
 
 
 
