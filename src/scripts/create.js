@@ -14,7 +14,7 @@ const create = (() => {
         element.role = 'button';
         element.textContent = content;
         element.value = state;
-        // aria-pressed
+        element.ariaPressed = 'false';
         _attributes = [];
         return element;
     }

@@ -5,19 +5,36 @@ import create from './create.js';
 
 const genUI = (() => {
     // data
+    let currentControl = '';
 
     // cache DOM
     let controlContainer = document.getElementById('controls');
+    let placementControls;
     let boardContainer = document.getElementById('board');
 
     // bind eventListeners
     document.addEventListener('click', e => {
-        console.log(e.target)
+        // ^ pressed button highlighted, previous button un-highlighted (UNLESS travail)
+        // ^ travail pressed, disable placement controls
+        // ^ clear pressed, enable placement controls
+        if (e.target.type === 'button') {
+            f (e.target !== currentControl) {
+                if (currentControl !== '') {
+                    currentControl.ariaPressed = 'false';
+                    currentControl.classList.remove('pressed');
+                }
+                e.target.ariaPressed = 'true';
+                e.target.classList.add('pressed');
+                currentControl = e.target;
+                console.log(currentControl);
+            }
+        }
     });
 
     // methods
     function init() {
         genControls();
+        placementControls = document.querySelectorAll('.placement button');
         genBoard();
     }
     function genControls() {
@@ -26,7 +43,6 @@ const genUI = (() => {
         controlContainer.append(placeControls);
         for (let i = 0; i < (controls.length); i++) {
             let control = create.button(controls[i], i, '');
-            console.log(control);
             if (i < 3) {
                 placeControls.append(control);
             } else {
