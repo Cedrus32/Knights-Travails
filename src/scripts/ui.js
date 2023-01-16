@@ -1,5 +1,6 @@
 import events from '../events.js';
 import create from './create.js';
+import iconsArray from './icons.js';
 
 // & generates ui
 
@@ -8,11 +9,13 @@ const genUI = (() => {
     let controlContainer = document.getElementById('controls');
     let controlButtons;  // cached on creation
     let boardContainer = document.getElementById('board');
+    let knightIcon = iconsArray['knight'];
+    let endIcon;
 
     // bind eventListeners
     document.addEventListener('click', e => {
         if (e.target.type === 'button') {
-            if (e.target.value == 0 || e.target.value == 1) { // place knight OR place end
+            if (e.target.value == 0 || e.target.value == 1) {
                 addBoardHover();
             } else if (e.target.value !== 0 && e.target.value !== 1) {
                 removeBoardHover();
@@ -94,9 +97,33 @@ const genUI = (() => {
     function removeBoardHover() {
         boardContainer.classList.remove('hover-true');
     }
+    function addBoardClicks(placementType) {
+        if (placementType == 0) {
+            boardContainer.addEventListener('click', placeKnight);
+        } else if (placementType == 1) {
+            boardContainer.addEventListener('click', placeEnd);
+        }
+    }
+    function removeBoardClicks(placementType) {
+        if (placementType == 0) {
+            boardContainer.removeEventListener('click', placeKnight);
+        } else if (placementType == 1) {
+            boardContainer.removeEventListener('click', placeEnd);
+        }
+    }
+    function placeKnight(e) {
+        console.log('*** place knight ***')
+        console.log(e.target);
+    }
+    function placeEnd(e) {
+        console.log('*** place end ***')
+        console.log(e.target);
+    }
 
     // event subscriptions
     events.subscribe('updateButtons', updateButtons);   // published by state.js
+    events.subscribe('placementOn', addBoardClicks);   // published by state.js
+    events.subscribe('placementOff', removeBoardClicks);    // published by state.js
 
     // make public
     return {
