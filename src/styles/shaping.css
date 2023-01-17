@@ -18,7 +18,22 @@ body {
             padding: 0.4em;
         }
 
+        #board {
+            padding: 8px;
+        }
+
         .cell {
             height: 10vh;
             width: 10vh;
         }
+
+            .knight-placed {
+                padding: 4px;
+            }
+
+            .cell::after {
+                content: '';
+                display: block;
+                height: 100%;
+                width: 100%;
+            }

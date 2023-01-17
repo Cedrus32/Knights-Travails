@@ -18,11 +18,6 @@ const create = (() => {
         _attributes = [];
         return element;
     }
-
-
-
-
-    
     const div = function(content, ...args) {
         _attributes = [...args];
         element = document.createElement('div');
@@ -33,6 +28,35 @@ const create = (() => {
         _attributes = [];
         return element;
     }
+    const img = function(url, alt, ...args) {
+        _attributes = [...args];
+        element = document.createElement('img');
+        if (_attributes.length > 0) {
+            _setAttributes(element, _attributes);
+        }
+        element.src = url;
+        element.alt = alt;
+        return element;
+    }
+    const svg = function(url, alt, ...args) {
+        _attributes = [...args];
+        element = document.createElement('svg');
+        if (_attributes.length > 0) {
+            _setAttributes(element, _attributes);
+        }
+        element.src = url;
+        return element;
+    }
+
+
+
+
+
+
+
+
+
+
     const span = function(content, ...args) {
         _attributes = [...args];
         element = document.createElement('span');
@@ -144,17 +168,6 @@ const create = (() => {
         _attributes = [];
         return element;
     }
-    const img = function(url, alt, ...args) {
-        _attributes = [...args];
-        element = document.createElement('img');
-        if (_attributes.length > 0) {
-            _setAttributes(element, _attributes);
-        }
-        // element.src = `../${url}`;
-        element.src = url;
-        element.alt = alt;
-        return element;
-    }
 
     // helpers
     function _setAttributes(element, attributes) {
@@ -168,8 +181,10 @@ const create = (() => {
     }
 
     return {
-        div,    // used by ui.js
         button,    // used by ui.js
+        div,    // used by ui.js
+        img,    // used by ui.js
+        svg,    // used by ui.js
     }
 
 })();

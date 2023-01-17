@@ -8,6 +8,8 @@ const state = (() => {
     let previousState;
     let knightPlaced;
     let endPlaced;
+    let knight;
+    let end;
 
     // methods
     function updateState(value) {
@@ -28,9 +30,29 @@ const state = (() => {
             }
         }
     }
+    function checkKnight(cell) {
+        if ((knight !== undefined && cell.id !== knight.id) || knight === undefined) {
+            if (knight !== undefined) {
+                events.publish('removeKnight', knight);   // subscribed by ui.js   
+            }
+            knight = cell;
+            events.publish('placeKnight', knight);  // subscribed by ui.js
+        }
+    }
+    function checkEnd(cell) {
+        if ((end !== undefined && cell.id !== end.id) || end === undefined) {
+            if (end !== undefined) {
+                events.publish('removeEnd', end);   // subscribed by ui.js
+            }
+            end = cell;
+            events.publish('placeEnd', end); // subscribed by ui.js
+        }
+    }
 
     // event subscriptions
     events.subscribe('updateState', updateState);   // published by ui.js
+    events.subscribe('checkKnight', checkKnight); // published by ui.js
+    events.subscribe('checkEnd', checkEnd);   // published by ui.js
 
 })();
 

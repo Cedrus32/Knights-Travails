@@ -9,14 +9,14 @@ const genUI = (() => {
     let controlContainer = document.getElementById('controls');
     let controlButtons;  // cached on creation
     let boardContainer = document.getElementById('board');
-    let knightIcon = iconsArray['knight'];
-    let endIcon;
+    let knight = create.img('', 'knight', '');
+    console.log(knight);
 
     // bind eventListeners
     document.addEventListener('click', e => {
         if (e.target.type === 'button') {
             if (e.target.value == 0 || e.target.value == 1) {
-                addBoardHover();
+                addBoardHover(e.target.value);
             } else if (e.target.value !== 0 && e.target.value !== 1) {
                 removeBoardHover();
             }
@@ -50,7 +50,7 @@ const genUI = (() => {
         for (let i = 0; i < 8; i++) {
             let row = create.div('', '.row');
             for (let j = 0; j < 8; j++) {
-                let cell = create.div('', '.cell');
+                let cell = create.div('', `#${i}${j}`, '.cell');
                 if (i === 0 || i % 2 === 0) {
                     // light-dark
                     if (j === 0 || j % 2 === 0) {
@@ -91,39 +91,99 @@ const genUI = (() => {
         controlButtons[currentState].ariaPressed = true;
         controlButtons[currentState].classList.add('pressed');
     }
-    function addBoardHover() {
+    function addBoardHover(placementType) {
         boardContainer.classList.add('hover-true');
+        if (placementType == 0) {
+            if (boardContainer.classList.contains('placing-end')) {
+                boardContainer.classList.remove('placing-end');
+            }
+            boardContainer.classList.add('placing-knight');
+        } else if (placementType == 1) {
+            if (boardContainer.classList.contains('placing-knight')) {
+                boardContainer.classList.remove('placing-knight');
+            }
+            boardContainer.classList.add('placing-end');
+        }
     }
     function removeBoardHover() {
         boardContainer.classList.remove('hover-true');
     }
     function addBoardClicks(placementType) {
         if (placementType == 0) {
-            boardContainer.addEventListener('click', placeKnight);
+            boardContainer.addEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            boardContainer.addEventListener('click', placeEnd);
+            boardContainer.addEventListener('click', checkEnd);
         }
     }
     function removeBoardClicks(placementType) {
         if (placementType == 0) {
-            boardContainer.removeEventListener('click', placeKnight);
+            boardContainer.removeEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            boardContainer.removeEventListener('click', placeEnd);
+            boardContainer.removeEventListener('click', checkEnd);
         }
     }
-    function placeKnight(e) {
-        console.log('*** place knight ***')
-        console.log(e.target);
+    function checkKnight(e) {
+        events.publish('checkKnight', e.target);    // subscribed by state.ui
     }
-    function placeEnd(e) {
-        console.log('*** place end ***')
-        console.log(e.target);
+    function checkEnd(e) {
+        events.publish('checkEnd', e.target);   // subscribed by state.ui
+    }
+
+    // ^^^ ADD PLACEMENT ^^^
+    // ^ if single placement (2 base classnames only)...
+        // ^ add placement class
+        // ^ (add knight for placeKnight())
+    // ^ else (if additional classnames & placement)...
+        // ^ add placement class
+        // ^ format double placement ------------------------> ^ if double placement...
+                                                                // ^ knight is purple
+                                                            // ^ else...
+                                                                // ^ knight is green
+
+    // ^^^ REMOVE END PLACEMENT ^^^
+    // ^ remove placement class
+    // ^ format double placement -----------------------------^
+
+    function formatDoublePlacement(cell) {
+        if (cell.classList.length === 4) {
+            console.log('*** purple knight ***');
+            knight.src = iconsArray['knight-purple'];
+        } else {
+            console.log('*** green knight ***');
+            knight.src = iconsArray['knight-green'];
+        }
+    }
+    function placeKnight(cell) {
+        cell.classList.add('knight-placed');
+        if (cell.classList.length > 2) {
+            formatDoublePlacement(cell);
+        }
+        cell.append(knight);
+    }
+    function placeEnd(cell) {
+        cell.classList.add('end-placed');
+        if (cell.classList.length > 3) {
+            formatDoublePlacement(cell);
+        }
+    }
+    function removeKnight(cell) {
+        cell.classList.remove('knight-placed');
+    }
+    function removeEnd(cell) {
+        cell.classList.remove('end-placed');
+        if (cell.classList.length > 2) {
+            formatDoublePlacement(cell);
+        }
     }
 
     // event subscriptions
     events.subscribe('updateButtons', updateButtons);   // published by state.js
     events.subscribe('placementOn', addBoardClicks);   // published by state.js
     events.subscribe('placementOff', removeBoardClicks);    // published by state.js
+    events.subscribe('placeKnight', placeKnight);   // published by state.js
+    events.subscribe('placeEnd', placeEnd); // published by state.js
+    events.subscribe('removeKnight', removeKnight); // published by state.js
+    events.subscribe('removeEnd', removeEnd);   // published by state.js
 
     // make public
     return {

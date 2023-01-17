@@ -47,6 +47,16 @@ main {
     margin-top: auto;
 }
 
-#board {
-    padding: 8px;
+.cell {
+    position: relative;
+}
+
+.cell::after {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.knight-placed img {
+    z-index: 5;
 }
