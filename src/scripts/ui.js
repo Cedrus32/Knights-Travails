@@ -166,7 +166,12 @@ const genUI = (() => {
             removeEnd(endCell);
         }
     }
-    
+    function randomizePlacement(knightID, endID) {
+        let knightCell = document.getElementById(knightID);
+        let endCell = document.getElementById(endID);
+        events.publish('checkKnight', knightCell);  // subscribed by state.ui
+        events.publish('checkEnd', endCell);    // subscribed by state.ui
+    }
 
     // event subscriptions
     events.subscribe('updateButtons', updateButtons);   // published by state.js
@@ -177,6 +182,7 @@ const genUI = (() => {
     events.subscribe('removeKnight', removeKnight); // published by state.js
     events.subscribe('removeEnd', removeEnd);   // published by state.js
     events.subscribe('clearBoard', clearBoard); // published by state.js
+    events.subscribe('randomizePlacement', randomizePlacement); // published by state.js
 
     // make public
     return {

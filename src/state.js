@@ -28,6 +28,11 @@ const state = (() => {
             if (previousState === 0 || previousState === 1) {
                 events.publish('placementOff', previousState);  // subscribed by ui.js
             }
+            if (currentState === 2) {
+                let knightID = randomizeID();
+                let endID = randomizeID();
+                events.publish('randomizePlacement', knightID, endID);  // subscribed by ui.js
+            }
             if (currentState === 4) {
                 events.publish('clearBoard', knight, end); // subscribed by ui.js
                 knightPlaced = false;
@@ -60,6 +65,14 @@ const state = (() => {
             end = cell;
             events.publish('placeEnd', end); // subscribed by ui.js
         }
+    }
+    function randomizeID() {
+        let id = '';
+        for (let i = 0; i < 2; i++) {
+            let number = Math.floor(Math.random() * 8);
+            id += number;
+        }
+        return id;
     }
 
     // event subscriptions
