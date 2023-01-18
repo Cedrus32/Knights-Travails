@@ -20,7 +20,7 @@ const genUI = (() => {
             } else if (e.target.value !== 0 && e.target.value !== 1) {
                 removeBoardHover();
             }
-            events.publish('updateState', e.target.value);  // subscribed by state.js
+            events.publish('updateGameState', e.target.value);  // subscribed by state.js
         };
     });
 
@@ -128,31 +128,6 @@ const genUI = (() => {
     function checkEnd(e) {
         events.publish('checkEnd', e.target);   // subscribed by state.ui
     }
-
-    // ^^^ ADD PLACEMENT ^^^
-    // ^ if single placement (2 base classnames only)...
-        // ^ add placement class
-        // ^ (add knight for placeKnight())
-    // ^ else (if additional classnames & placement)...
-        // ^ add placement class
-        // ^ format double placement ------------------------> ^ if double placement...
-                                                                // ^ knight is purple
-                                                            // ^ else...
-                                                                // ^ knight is green
-
-    // ^^^ REMOVE END PLACEMENT ^^^
-    // ^ remove placement class
-    // ^ format double placement -----------------------------^
-
-    function formatDoublePlacement(cell) {
-        if (cell.classList.length === 4) {
-            console.log('*** purple knight ***');
-            knight.src = iconsArray['knight-purple'];
-        } else {
-            console.log('*** green knight ***');
-            knight.src = iconsArray['knight-green'];
-        }
-    }
     function placeKnight(cell) {
         cell.classList.add('knight-placed');
         if (cell.classList.length > 2) {
@@ -175,6 +150,23 @@ const genUI = (() => {
             formatDoublePlacement(cell);
         }
     }
+    function formatDoublePlacement(cell) {
+        if (cell.classList.length === 4) {
+            knight.src = iconsArray['knight-purple'];
+        } else {
+            knight.src = iconsArray['knight-green'];
+        }
+    }
+    function clearBoard(knightCell, endCell) {
+        if (knightCell !== undefined) {
+            removeKnight(knightCell);
+            knightCell.removeChild(knightCell.children[0]);
+        }
+        if (endCell !== undefined) {
+            removeEnd(endCell);
+        }
+    }
+    
 
     // event subscriptions
     events.subscribe('updateButtons', updateButtons);   // published by state.js
@@ -184,6 +176,7 @@ const genUI = (() => {
     events.subscribe('placeEnd', placeEnd); // published by state.js
     events.subscribe('removeKnight', removeKnight); // published by state.js
     events.subscribe('removeEnd', removeEnd);   // published by state.js
+    events.subscribe('clearBoard', clearBoard); // published by state.js
 
     // make public
     return {

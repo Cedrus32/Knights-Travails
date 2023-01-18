@@ -6,13 +6,13 @@ const state = (() => {
     // data
     let currentState;
     let previousState;
-    let knightPlaced;
-    let endPlaced;
+    let knightPlaced = false;
+    let endPlaced = false;
     let knight;
     let end;
 
     // methods
-    function updateState(value) {
+    function updateGameState(value) {
         value = parseInt(value);
         if ((currentState === 3 && value === 4) || (value === 3 && knightPlaced === true && endPlaced === true) || value !== 3) {
             previousState = currentState;
@@ -28,10 +28,20 @@ const state = (() => {
             if (previousState === 0 || previousState === 1) {
                 events.publish('placementOff', previousState);  // subscribed by ui.js
             }
+            if (currentState === 4) {
+                events.publish('clearBoard', knight, end); // subscribed by ui.js
+                knightPlaced = false;
+                endPlaced = false;
+                knight = undefined;
+                end = undefined;
+            }
         }
     }
     function checkKnight(cell) {
         if ((knight !== undefined && cell.id !== knight.id) || knight === undefined) {
+            if (knightPlaced === false) {
+                knightPlaced = true;
+            }
             if (knight !== undefined) {
                 events.publish('removeKnight', knight);   // subscribed by ui.js   
             }
@@ -41,6 +51,9 @@ const state = (() => {
     }
     function checkEnd(cell) {
         if ((end !== undefined && cell.id !== end.id) || end === undefined) {
+            if (endPlaced === false) {
+                endPlaced = true;
+            }
             if (end !== undefined) {
                 events.publish('removeEnd', end);   // subscribed by ui.js
             }
@@ -50,7 +63,7 @@ const state = (() => {
     }
 
     // event subscriptions
-    events.subscribe('updateState', updateState);   // published by ui.js
+    events.subscribe('updateGameState', updateGameState);   // published by ui.js
     events.subscribe('checkKnight', checkKnight); // published by ui.js
     events.subscribe('checkEnd', checkEnd);   // published by ui.js
 
