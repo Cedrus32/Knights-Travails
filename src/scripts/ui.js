@@ -49,7 +49,7 @@ const ui = (() => {
         for (let i = 0; i < 8; i++) {
             let row = create.div('', '.row');
             for (let j = 0; j < 8; j++) {
-                let cell = create.div('', `#${i}${j}`, '.cell');
+                let cell = create.div('', `#${j}${i}`, '.cell');
                 if (i === 0 || i % 2 === 0) {
                     // light-dark
                     if (j === 0 || j % 2 === 0) {

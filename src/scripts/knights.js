@@ -8,11 +8,12 @@ const knights = (() => {
         for (let i = 0; i < 8; i++) {
             let row = [];
             for (let j = 0; j < 8; j++) {
-                let cell = [i, j];
+                let cell = [j, i];
                 row.push(cell);
             }
             gameboard.push(row);
         }
+        console.log(gameboard);
         return gameboard;
     }
     
@@ -45,14 +46,14 @@ const knights = (() => {
         let x = coord[0];
         let y = coord[1];
         let moves = [];
-        let moveOperations = [[x + 1, y - 2],
-                              [x + 2, y - 1],
-                              [x + 2, y + 1],
+        let moveOperations = [[x + 2, y + 1],
                               [x + 1, y + 2],
-                              [x - 1, y + 2],
-                              [x - 2, y + 1],
-                              [x - 2, y - 1],
+                              [x + 2, y - 1],
+                              [x + 1, y - 2],
                               [x - 1, y - 2],
+                              [x - 2, y - 1],
+                              [x - 2, y + 1],
+                              [x - 1, y + 2],
                              ]
         for (let i = 0; i < (moveOperations.length); i++) {
             let possibleX = moveOperations[i][0];
@@ -60,6 +61,7 @@ const knights = (() => {
             gameboard.forEach(row => {
                 row.forEach(cell => {
                     if (possibleX === cell[0] && possibleY === cell[1]) {
+                        console.log(cell);
                         moves.push(cell);
                     }
                 });
@@ -69,6 +71,7 @@ const knights = (() => {
     }
     
     function formatPath(pathList) {
+        console.log(pathList);
         let coordArray = [];
         let step = pathList.step;
         while (step >= 0) {
@@ -81,7 +84,8 @@ const knights = (() => {
     }
     
     function findShortestPath(startCoord, endCoord) {
-        console.log('*** enter findShortestPath ***')
+        console.log(startCoord, endCoord);
+
         let _Gameboard = buildGameboard();
         let _Knight = buildKnight();
     
