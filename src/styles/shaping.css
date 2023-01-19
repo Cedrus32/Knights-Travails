@@ -11,7 +11,8 @@ body {
         height: auto;
     }
 
-        button {
+        button,
+        #moves {
             height: auto;
             width: auto;
 

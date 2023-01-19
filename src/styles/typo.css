@@ -4,3 +4,7 @@ body {
     font-family: 'Roboto Mono', monospace;
     font-size: 1.5rem;
 }
+
+#moves {
+    text-align: center;
+}

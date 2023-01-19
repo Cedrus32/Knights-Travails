@@ -30,18 +30,20 @@ const ui = (() => {
         genBoard();
     }
     function genControls() {
-        let controlTitles = ['place knight', 'place end', 'randomize', 'travail', 'clear', '# moves: '];
+        let controlTitles = ['place knight', 'place end', 'randomize', 'travail', 'clear', '# moves: __'];
         let placeControlContainer = create.div('', '.placement');
         controlContainer.append(placeControlContainer);
-        for (let i = 0; i < (controlTitles.length - 1); i++) {   // ! -1 for testing only, re-adjust later to include 'moves'
-            let controlButton = create.button(controlTitles[i], i, '');
-            if (i < 3) {
-                placeControlContainer.append(controlButton);
+        for (let i = 0; i < (controlTitles.length); i++) {
+            let control;
+            if (i < 5) {
+                control = create.button(controlTitles[i], i, '');
             } else {
-                if (i === 5) {
-                    controlButton.id = 'moves';
-                }
-                controlContainer.append(controlButton);
+                control = create.div(controlTitles[i], '#moves');
+            }
+            if (i < 3) {
+                placeControlContainer.append(control);
+            } else {
+                controlContainer.append(control);
             }
         }
     }
