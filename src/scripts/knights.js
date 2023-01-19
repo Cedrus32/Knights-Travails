@@ -54,11 +54,10 @@ const knights = (() => {
             let currentMove = queue.shift();
             // check current move
             if (currentMove.coord[0] === endCoord[0] && currentMove.coord[1] === endCoord[1]) {
-                _Knight.path = currentMove; // redundant, maybe needed when implementing UI?
-                _Knight.steps = currentMove.step; // redundant, maybe needed when implementing UI?
-                let path = formatPath(_Knight.path);
-                console.log(`*** You reached the end in ${_Knight.steps} steps. Here is your path:`)
-                console.log(path);
+                _Knight.path = currentMove;
+                _Knight.steps = currentMove.step;
+                let moveCoords = formatMoveCoords(_Knight.path);
+                events.publish('animateMoves', _Knight.steps, moveCoords); // subscribed by ui.js
                 queue = [];
                 return;
             // go to next moves
@@ -98,16 +97,20 @@ const knights = (() => {
         }
         return moves;
     }
-    function formatPath(pathList) {
-        let coordArray = [];
+    function formatMoveCoords(pathList) {
+        let idArray = [];
         let step = pathList.step;
         while (step >= 0) {
-            coordArray.splice(0, 0, pathList.coord);
+            // combine pathlist into id tags -- '##'
+            let id = '';
+            for (let i = 0; i < (pathList.coord.length); i++) {
+                id += pathList.coord[i];
+            }
+            idArray.splice(0, 0, id);
             pathList = pathList.previous;
             step--;
         }
-        let path = '[' + coordArray.join('], [') + ']';
-        return path;
+        return idArray;
     }
     
     // event subscriptions

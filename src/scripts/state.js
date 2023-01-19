@@ -81,7 +81,7 @@ const state = (() => {
     }
     function getCoords(cellID) {
         let id = [];
-        for (let i = 0; i < cellID.length; i++) {
+        for (let i = 0; i < (cellID.length); i++) {
             id.push(parseInt(cellID[i]));
         }
         return id;

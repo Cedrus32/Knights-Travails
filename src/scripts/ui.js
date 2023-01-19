@@ -2,12 +2,12 @@ import events from './events.js';
 import create from './create.js';
 import iconsArray from './icons.js';
 
-// & generates ui
+// & generates and updates ui
 
 const ui = (() => {
     // cache DOM
     let controlContainer = document.getElementById('controls');
-    let controlButtons;  // cached on creation
+    let controlButtons;  // cached after creation
     let boardContainer = document.getElementById('board');
     let knight = create.img('', 'knight', '');
 
@@ -23,7 +23,7 @@ const ui = (() => {
         };
     });
 
-    // methods
+    // init methods
     function init() {
         genControls();
         controlButtons = document.querySelectorAll('button');
@@ -72,6 +72,7 @@ const ui = (() => {
             boardContainer.append(row);
         }
     }
+    // control methods
     function updateButtons(currentState, previousState) {
         if (currentState === 3) {
             // disable placement controls
@@ -123,6 +124,7 @@ const ui = (() => {
             boardContainer.removeEventListener('click', checkEnd);
         }
     }
+    // board methods
     function checkKnight(e) {
         events.publish('checkKnight', e.target);    // subscribed by state.ui
     }
@@ -173,6 +175,13 @@ const ui = (() => {
         events.publish('checkKnight', knightCell);  // subscribed by state.ui
         events.publish('checkEnd', endCell);    // subscribed by state.ui
     }
+    // animate methods
+    function animateMoves(steps, idArray) {
+        console.log(steps, idArray);
+        // ^ for items in idArray...
+            // ^ increment move count
+            // ^ change knight position to cell id
+    }
 
     // event subscriptions
     events.subscribe('updateButtons', updateButtons);   // published by state.js
@@ -184,6 +193,7 @@ const ui = (() => {
     events.subscribe('removeEnd', removeEnd);   // published by state.js
     events.subscribe('clearBoard', clearBoard); // published by state.js
     events.subscribe('randomizePlacement', randomizePlacement); // published by state.js
+    events.subscribe('animateMoves', animateMoves); // published by state.js
 
     // make public
     return {
