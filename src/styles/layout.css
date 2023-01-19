@@ -19,14 +19,14 @@ main,
     flex-flow: column;
 }
 
-main,
-.row {
-    flex-flow: row;
-}
-
 body {
     justify-content: center;
     align-items: center;
+}
+
+main,
+.row {
+    flex-flow: row;
 }
 
 /* SPACING */
@@ -35,28 +35,28 @@ main {
     gap: 3.5rem;
 }
 
-#controls {
-    gap: 4.5rem;
-}
+    #controls {
+        gap: 4.5rem;
+    }
 
-.placement {
-    gap: 1rem;
-}
+        .placement {
+            gap: 1rem;
+        }
 
-#moves {
-    margin-top: auto;
-}
+        #moves {
+            margin-top: auto;
+        }
 
-.cell {
-    position: relative;
-}
+    .cell {
+        position: relative;
+    }
 
-.cell::after {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
+    .cell::after {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
 
-.knight-placed img {
-    z-index: 5;
-}
+    .knight-placed img {
+        z-index: 5;
+    }
