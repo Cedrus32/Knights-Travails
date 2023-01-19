@@ -126,10 +126,14 @@ const ui = (() => {
     }
     // board methods
     function checkKnight(e) {
-        events.publish('checkKnight', e.target);    // subscribed by state.ui
+        if (e.target.classList.contains('cell')) {
+            events.publish('checkKnight', e.target);    // subscribed by state.ui
+        }
     }
     function checkEnd(e) {
-        events.publish('checkEnd', e.target);   // subscribed by state.ui
+        if (e.target.classList.contains('cell')) {
+            events.publish('checkEnd', e.target);   // subscribed by state.ui
+        }
     }
     function placeKnight(cell) {
         cell.classList.add('knight-placed');
