@@ -1,3 +1,5 @@
+import events from './events.js';
+
 // & logic for knight's travails
 
 const knights = (() => {
@@ -79,6 +81,7 @@ const knights = (() => {
     }
     
     function findShortestPath(startCoord, endCoord) {
+        console.log('*** enter findShortestPath ***')
         let _Gameboard = buildGameboard();
         let _Knight = buildKnight();
     
@@ -108,9 +111,8 @@ const knights = (() => {
         }
     }
     
-    return {
-        findShortestPath,
-    }
+    // event subscriptions
+    events.subscribe('travailBoard', findShortestPath); // subscribed by state.js
     
 })();
 

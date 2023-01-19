@@ -3,16 +3,9 @@ import './styles/layout.css';
 import './styles/typo.css';
 import './styles/shaping.css';
 import './styles/colors.css';
-import events from './events.js';
-import state from './state.js';
-import knights from './knights.js';
-import genUI from './scripts/ui.js';
+import state from './scripts/state.js';
+import knights from './scripts/knights.js';
+import ui from './scripts/ui.js';
 
-// import Img from './img.png';
-// import XmlData from './data.xml';
-// import CsvData from './data.csv';
-
-// manager function here
-
-genUI.init();
-knights.findShortestPath([0, 0], [3, 4]);
+ui.init();
+// knights.findShortestPath([0, 0], [3, 4]);

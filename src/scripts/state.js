@@ -33,6 +33,11 @@ const state = (() => {
                 let endID = randomizeID();
                 events.publish('randomizePlacement', knightID, endID);  // subscribed by ui.js
             }
+            if (currentState === 3) {
+                let knightCoords = getCoords(knight.id);
+                let endCoords = getCoords(end.id);
+                events.publish('travailBoard', knightCoords, endCoords);    // subscribed by knights.js
+            }
             if (currentState === 4) {
                 events.publish('clearBoard', knight, end); // subscribed by ui.js
                 knightPlaced = false;
@@ -71,6 +76,13 @@ const state = (() => {
         for (let i = 0; i < 2; i++) {
             let number = Math.floor(Math.random() * 8);
             id += number;
+        }
+        return id;
+    }
+    function getCoords(cellID) {
+        let id = [];
+        for (let i = 0; i < cellID.length; i++) {
+            id.push(parseInt(cellID[i]));
         }
         return id;
     }

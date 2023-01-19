@@ -1,16 +1,15 @@
-import events from '../events.js';
+import events from './events.js';
 import create from './create.js';
 import iconsArray from './icons.js';
 
 // & generates ui
 
-const genUI = (() => {
+const ui = (() => {
     // cache DOM
     let controlContainer = document.getElementById('controls');
     let controlButtons;  // cached on creation
     let boardContainer = document.getElementById('board');
     let knight = create.img('', 'knight', '');
-    console.log(knight);
 
     // bind eventListeners
     document.addEventListener('click', e => {
@@ -191,4 +190,4 @@ const genUI = (() => {
 
 })();
 
-export default genUI;
+export default ui;
