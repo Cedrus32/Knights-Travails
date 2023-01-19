@@ -39,6 +39,17 @@ const create = (() => {
         return element;
     }
 
+    // helpers
+    function _setAttributes(element, attributes) {
+        for (let i = 0; i < (attributes.length); i++) {
+            if (attributes[i][0] === '.') {
+                element.classList.add(attributes[i].substring(1, attributes[i].length));
+            } else if (attributes[i][0] === '#') {
+                element.id = attributes[i].substring(1, attributes[i].length);
+            }
+        }
+    }
+
     return {
         button,    // used by ui.js
         div,    // used by ui.js
