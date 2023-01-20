@@ -15,7 +15,7 @@ const ui = (() => {
     document.addEventListener('click', e => {
         if (e.target.type === 'button') {
             if (e.target.value == 0 || e.target.value == 1) {
-                addBoardHover(e.target.value);
+                addBoardHover();
             } else if (e.target.value !== 0 && e.target.value !== 1) {
                 removeBoardHover();
             }
@@ -71,6 +71,8 @@ const ui = (() => {
             }
             boardContainer.append(row);
         }
+        let knightDisplay = create.div('', '#knight-display');
+        boardContainer.append(knightDisplay);
     }
     // control methods
     function updateButtons(currentState, previousState) {
@@ -93,34 +95,27 @@ const ui = (() => {
         controlButtons[currentState].ariaPressed = true;
         controlButtons[currentState].classList.add('pressed');
     }
-    function addBoardHover(placementType) {
+    function addBoardHover() {
         boardContainer.classList.add('hover-true');
-        if (placementType == 0) {
-            if (boardContainer.classList.contains('placing-end')) {
-                boardContainer.classList.remove('placing-end');
-            }
-            boardContainer.classList.add('placing-knight');
-        } else if (placementType == 1) {
-            if (boardContainer.classList.contains('placing-knight')) {
-                boardContainer.classList.remove('placing-knight');
-            }
-            boardContainer.classList.add('placing-end');
-        }
     }
     function removeBoardHover() {
         boardContainer.classList.remove('hover-true');
     }
     function addBoardClicks(placementType) {
         if (placementType == 0) {
+            boardContainer.classList.add('placing-knight');
             boardContainer.addEventListener('click', checkKnight);
         } else if (placementType == 1) {
+            boardContainer.classList.add('placing-end');
             boardContainer.addEventListener('click', checkEnd);
         }
     }
     function removeBoardClicks(placementType) {
         if (placementType == 0) {
+            boardContainer.classList.remove('placing-knight');
             boardContainer.removeEventListener('click', checkKnight);
         } else if (placementType == 1) {
+            boardContainer.classList.remove('placing-end');
             boardContainer.removeEventListener('click', checkEnd);
         }
     }
