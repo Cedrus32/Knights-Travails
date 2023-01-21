@@ -31,7 +31,10 @@ const state = (() => {
             if (currentState === 2) {
                 let knightID = randomizeID();
                 let endID = randomizeID();
-                events.publish('randomizePlacement', knightID, endID);  // subscribed by ui.js
+                events.publish('randomizeOn', knightID, endID);  // subscribed by ui.js
+            }
+            if (previousState === 2) {
+                events.publish('randomizeOff', '');
             }
             if (currentState === 3) {
                 let knightCoords = getCoords(knight);

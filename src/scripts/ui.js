@@ -118,19 +118,19 @@ const ui = (() => {
     }
     function addBoardClicks(placementType) {
         if (placementType == 0) {
-            topLayer.classList.add('placing-knight');
+            // topLayer.classList.add('placing-knight');
             topLayer.addEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            topLayer.classList.add('placing-end');
+            // topLayer.classList.add('placing-end');
             topLayer.addEventListener('click', checkEnd);
         }
     }
     function removeBoardClicks(placementType) {
         if (placementType == 0) {
-            topLayer.classList.remove('placing-knight');
+            // topLayer.classList.remove('placing-knight');
             topLayer.removeEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            topLayer.classList.remove('placing-end');
+            // topLayer.classList.remove('placing-end');
             topLayer.removeEventListener('click', checkEnd);
         }
     }
@@ -151,7 +151,12 @@ const ui = (() => {
         if (cell.classList.length > 2) {
             formatDoublePlacement(cell);
         }
-        cell.append(knight);    // ! append to middle layer
+        // cell.append(knight);    // ! append to middle layer
+        if (middleLayer.children.length === 0) {
+            middleLayer.append(knight);
+        } else {
+            changeKnightPosition();
+        }
     }
     function placeEnd(cellID) {
         let cell = getBottomCell(cellID);
@@ -160,9 +165,12 @@ const ui = (() => {
             formatDoublePlacement(cell);
         }
     }
-    function removeKnight(cellID) {
+    function removeKnightClass(cellID) {
         let cell = getBottomCell(cellID);
         cell.classList.remove('knight-placed');
+    }
+    function changeKnightPosition() {
+        console.log('*** change knight position ***');
     }
     function removeEnd(cellID) {
         let cell = getBottomCell(cellID);
@@ -185,18 +193,24 @@ const ui = (() => {
         }
     }
     function clearBoard(knightID, endID) {
+        if (topLayer.classList.contains('randomizing')) {
+            // topLayer.classList.remove('randomizing');
+        }
         if (knightID !== undefined) {
-            let knightCell = getBottomCell(knightID);
-            knightCell.removeChild(knightCell.children[0]);
-            removeKnight(knightID);
+            middleLayer.removeChild(middleLayer.children[0]);
+            removeKnightClass(knightID);
         }
         if (endID !== undefined) {
             removeEnd(endID);
         }
     }
-    function randomizePlacement(knightID, endID) {
+    function enableRandomPlacement(knightID, endID) {
+        // topLayer.classList.add('randomizing');
         events.publish('checkKnight', knightID);  // subscribed by state.ui
         events.publish('checkEnd', endID);    // subscribed by state.ui
+    }
+    function disableRandomPlacement() {
+        topLayer.classList.remove('randomizing');
     }
     // animate methods
     function animateMoves(steps, idArray) {
@@ -212,10 +226,11 @@ const ui = (() => {
     events.subscribe('placementOff', removeBoardClicks);    // published by state.js
     events.subscribe('placeKnight', placeKnight);   // published by state.js
     events.subscribe('placeEnd', placeEnd); // published by state.js
-    events.subscribe('removeKnight', removeKnight); // published by state.js
+    events.subscribe('removeKnight', removeKnightClass); // published by state.js
     events.subscribe('removeEnd', removeEnd);   // published by state.js
     events.subscribe('clearBoard', clearBoard); // published by state.js
-    events.subscribe('randomizePlacement', randomizePlacement); // published by state.js
+    events.subscribe('randomizeOn', enableRandomPlacement); // published by state.js
+    events.subscribe('randomizeOff', disableRandomPlacement); // published by state.js
     events.subscribe('animateMoves', animateMoves); // published by state.js
 
     // make public

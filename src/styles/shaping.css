@@ -20,8 +20,14 @@ body {
 
         #board {
             height: calc(80vh + 16px + 16px);
+            width: calc(80vh + 16px + 16px);
             padding: 8px;
         }
+
+            img {
+                height: calc(10vh - 8px);
+                width: calc(10vh - 8px);
+            }
 
             .cell {
                 height: 10vh;
