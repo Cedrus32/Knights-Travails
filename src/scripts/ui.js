@@ -194,10 +194,8 @@ const ui = (() => {
         }
     }
     function randomizePlacement(knightID, endID) {
-        let knightCell = document.getElementById(knightID);
-        let endCell = document.getElementById(endID);
-        events.publish('checkKnight', knightCell);  // subscribed by state.ui
-        events.publish('checkEnd', endCell);    // subscribed by state.ui
+        events.publish('checkKnight', knightID);  // subscribed by state.ui
+        events.publish('checkEnd', endID);    // subscribed by state.ui
     }
     // animate methods
     function animateMoves(steps, idArray) {
