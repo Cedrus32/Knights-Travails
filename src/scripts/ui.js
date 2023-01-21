@@ -146,12 +146,12 @@ const ui = (() => {
         }
     }
     function placeKnight(cellID) {
-        let cell = bottomLayer.getElementById(cellID);
+        let cell = getBottomCell(cellID);
         cell.classList.add('knight-placed');
         if (cell.classList.length > 2) {
             formatDoublePlacement(cell);
         }
-        cell.append(knight);
+        cell.append(knight);    // ! append to middle layer
     }
     function placeEnd(cell) {
         cell.classList.add('end-placed');
@@ -160,7 +160,7 @@ const ui = (() => {
         }
     }
     function removeKnight(cellID) {
-        let cell = bottomLayer.getElementById(cellID);
+        let cell = getBottomCell(cellID);
         cell.classList.remove('knight-placed');
     }
     function removeEnd(cell) {
@@ -168,6 +168,12 @@ const ui = (() => {
         if (cell.classList.length > 2) {
             formatDoublePlacement(cell);
         }
+    }
+    function getBottomCell(cellID) {
+        let rowIndex = cellID[1];
+        let cellIndex = cellID[0];
+        let cell = bottomLayer.children[rowIndex].children[cellIndex];
+        return cell;
     }
     function formatDoublePlacement(cell) {
         if (cell.classList.length === 4) {
