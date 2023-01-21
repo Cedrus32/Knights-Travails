@@ -184,13 +184,14 @@ const ui = (() => {
             knight.src = iconsArray['knight-green'];
         }
     }
-    function clearBoard(knightCell, endCell) {
-        if (knightCell !== undefined) {
-            removeKnight(knightCell);
+    function clearBoard(knightID, endID) {
+        if (knightID !== undefined) {
+            let knightCell = getBottomCell(knightID);
             knightCell.removeChild(knightCell.children[0]);
+            removeKnight(knightID);
         }
-        if (endCell !== undefined) {
-            removeEnd(endCell);
+        if (endID !== undefined) {
+            removeEnd(endID);
         }
     }
     function randomizePlacement(knightID, endID) {
