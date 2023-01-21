@@ -142,7 +142,7 @@ const ui = (() => {
     }
     function checkEnd(e) {
         if (e.target.classList.contains('cell')) {
-            events.publish('checkEnd', e.target);   // subscribed by state.ui
+            events.publish('checkEnd', e.target.id);   // subscribed by state.ui
         }
     }
     function placeKnight(cellID) {
@@ -153,7 +153,8 @@ const ui = (() => {
         }
         cell.append(knight);    // ! append to middle layer
     }
-    function placeEnd(cell) {
+    function placeEnd(cellID) {
+        let cell = getBottomCell(cellID);
         cell.classList.add('end-placed');
         if (cell.classList.length > 3) {
             formatDoublePlacement(cell);
@@ -163,7 +164,8 @@ const ui = (() => {
         let cell = getBottomCell(cellID);
         cell.classList.remove('knight-placed');
     }
-    function removeEnd(cell) {
+    function removeEnd(cellID) {
+        let cell = getBottomCell(cellID);
         cell.classList.remove('end-placed');
         if (cell.classList.length > 2) {
             formatDoublePlacement(cell);

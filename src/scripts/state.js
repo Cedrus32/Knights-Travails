@@ -59,15 +59,15 @@ const state = (() => {
             events.publish('placeKnight', knight);  // subscribed by ui.js
         }
     }
-    function checkEnd(cell) {
-        if ((end !== undefined && cell.id !== end.id) || end === undefined) {
+    function checkEnd(id) {
+        if ((end !== undefined && id !== end) || end === undefined) {
             if (endPlaced === false) {
                 endPlaced = true;
             }
             if (end !== undefined) {
                 events.publish('removeEnd', end);   // subscribed by ui.js
             }
-            end = cell;
+            end = id;
             events.publish('placeEnd', end); // subscribed by ui.js
         }
     }
