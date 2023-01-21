@@ -47,15 +47,15 @@ const state = (() => {
             }
         }
     }
-    function checkKnight(cell) {
-        if ((knight !== undefined && cell.id !== knight.id) || knight === undefined) {
+    function checkKnight(id) {
+        if ((knight !== undefined && id !== knight) || knight === undefined) {
             if (knightPlaced === false) {
                 knightPlaced = true;
             }
             if (knight !== undefined) {
                 events.publish('removeKnight', knight);   // subscribed by ui.js   
             }
-            knight = cell;
+            knight = id;
             events.publish('placeKnight', knight);  // subscribed by ui.js
         }
     }

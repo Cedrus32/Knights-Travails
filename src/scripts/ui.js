@@ -8,7 +8,10 @@ const ui = (() => {
     // cache DOM
     let controlContainer = document.getElementById('controls');
     let controlButtons;  // cached after creation
-    let boardContainer = document.getElementById('board');
+    let gameboard = document.getElementById('board');
+    let bottomLayer;
+    let middleLayer;
+    let topLayer;
     let knight = create.img('', 'knight', '');
 
     // bind eventListeners
@@ -52,10 +55,10 @@ const ui = (() => {
         // ^ middle layer -- single transparent layer where knight lives
         // ^ top layer -- transparent board where clicks are captured
         
-        let bottomLayer = createGridLayer('#bottom');
-        let middleLayer = create.div('', '#middle');
-        let topLayer = createGridLayer('#top');
-        boardContainer.append(bottomLayer, middleLayer, topLayer);
+        bottomLayer = createGridLayer('#bottom');
+        middleLayer = create.div('', '#middle');
+        topLayer = createGridLayer('#top');
+        gameboard.append(bottomLayer, middleLayer, topLayer);
     }
     function createGridLayer(id) {
         let layer = create.div('', id);
@@ -108,33 +111,33 @@ const ui = (() => {
         controlButtons[currentState].classList.add('pressed');
     }
     function addBoardHover() {
-        boardContainer.classList.add('hover-true');
+        topLayer.classList.add('hover-true');
     }
     function removeBoardHover() {
-        boardContainer.classList.remove('hover-true');
+        topLayer.classList.remove('hover-true');
     }
     function addBoardClicks(placementType) {
         if (placementType == 0) {
-            boardContainer.classList.add('placing-knight');
-            boardContainer.addEventListener('click', checkKnight);
+            topLayer.classList.add('placing-knight');
+            topLayer.addEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            boardContainer.classList.add('placing-end');
-            boardContainer.addEventListener('click', checkEnd);
+            topLayer.classList.add('placing-end');
+            topLayer.addEventListener('click', checkEnd);
         }
     }
     function removeBoardClicks(placementType) {
         if (placementType == 0) {
-            boardContainer.classList.remove('placing-knight');
-            boardContainer.removeEventListener('click', checkKnight);
+            topLayer.classList.remove('placing-knight');
+            topLayer.removeEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            boardContainer.classList.remove('placing-end');
-            boardContainer.removeEventListener('click', checkEnd);
+            topLayer.classList.remove('placing-end');
+            topLayer.removeEventListener('click', checkEnd);
         }
     }
     // board methods
     function checkKnight(e) {
         if (e.target.classList.contains('cell')) {
-            events.publish('checkKnight', e.target);    // subscribed by state.ui
+            events.publish('checkKnight', e.target.id);    // subscribed by state.ui
         }
     }
     function checkEnd(e) {
@@ -142,7 +145,8 @@ const ui = (() => {
             events.publish('checkEnd', e.target);   // subscribed by state.ui
         }
     }
-    function placeKnight(cell) {
+    function placeKnight(cellID) {
+        let cell = bottomLayer.getElementById(cellID);
         cell.classList.add('knight-placed');
         if (cell.classList.length > 2) {
             formatDoublePlacement(cell);
@@ -155,7 +159,8 @@ const ui = (() => {
             formatDoublePlacement(cell);
         }
     }
-    function removeKnight(cell) {
+    function removeKnight(cellID) {
+        let cell = bottomLayer.getElementById(cellID);
         cell.classList.remove('knight-placed');
     }
     function removeEnd(cell) {

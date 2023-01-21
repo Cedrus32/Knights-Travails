@@ -6,7 +6,7 @@ button {
 
 button,
 #moves,
-#board.hover-true .cell:hover,
+.hover-true .cell:hover,
 .knight-placed {
     border: 2px solid #7EAD40;
 }
