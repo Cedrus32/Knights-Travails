@@ -47,16 +47,37 @@ main {
             margin-top: auto;
         }
 
+    #board,
     .cell {
         position: relative;
     }
 
-    .cell::after {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
+        #bottom,
+        #middle,
+        #top {
+            position: relative;
+        }
 
-    .knight-placed img {
-        z-index: 5;
-    }
+        #middle {
+            top: -80vh;
+        }
+
+        #top {
+            top: -80vh;
+        }
+
+        /* #bottom,
+        #middle,
+        #top, */
+        .cell::after {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        .cell::after {
+            content: '';
+            /* position: absolute; */
+            /* top: 0px;
+            left: 0px; */
+        }

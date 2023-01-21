@@ -48,31 +48,43 @@ const ui = (() => {
         }
     }
     function genBoard() {
+        // ^ bottom layer -- colored board where cell styles (board/background) & placement classes are applied
+        // ^ middle layer -- single transparent layer where knight lives
+        // ^ top layer -- transparent board where clicks are captured
+        
+        let bottomLayer = createGridLayer('#bottom');
+        let middleLayer = create.div('', '#middle');
+        let topLayer = createGridLayer('#top');
+        boardContainer.append(bottomLayer, middleLayer, topLayer);
+    }
+    function createGridLayer(id) {
+        let layer = create.div('', id);
         for (let i = 0; i < 8; i++) {
             let row = create.div('', '.row');
             for (let j = 0; j < 8; j++) {
                 let cell = create.div('', `#${j}${i}`, '.cell');
-                if (i === 0 || i % 2 === 0) {
-                    // light-dark
-                    if (j === 0 || j % 2 === 0) {
-                        cell.classList.add('light');
+                if (id === '#bottom') {
+                    if (i === 0 || i % 2 === 0) {
+                        // light-dark row
+                        if (j === 0 || j % 2 === 0) {
+                            cell.classList.add('light');
+                        } else {
+                            cell.classList.add('dark');
+                        }
                     } else {
-                        cell.classList.add('dark');
-                    }
-                } else {
-                    // dark-light
-                    if (j === 0 || j % 2 === 0) {
-                        cell.classList.add('dark');
-                    } else {
-                        cell.classList.add('light');
+                        // dark-light row
+                        if (j === 0 || j % 2 === 0) {
+                            cell.classList.add('dark');
+                        } else {
+                            cell.classList.add('light');
+                        }
                     }
                 }
                 row.append(cell);
             }
-            boardContainer.append(row);
+            layer.append(row);
         }
-        let knightDisplay = create.div('', '#knight-display');
-        boardContainer.append(knightDisplay);
+        return layer
     }
     // control methods
     function updateButtons(currentState, previousState) {

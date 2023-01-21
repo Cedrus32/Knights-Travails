@@ -5,7 +5,6 @@ body {
 
     main,
     #controls,
-    #board,
     .row {
         width: auto;
         height: auto;
@@ -20,21 +19,21 @@ body {
         }
 
         #board {
+            height: calc(80vh + 16px + 16px);
             padding: 8px;
         }
 
-        .cell {
-            height: 10vh;
-            width: 10vh;
-        }
-
-            .knight-placed {
-                padding: 4px;
+            .cell {
+                height: 10vh;
+                width: 10vh;
             }
 
             .cell::after {
-                content: '';
                 display: block;
                 height: 100%;
                 width: 100%;
+            }
+
+            .knight-placed {
+                padding: 4px;
             }
