@@ -34,8 +34,8 @@ const state = (() => {
                 events.publish('randomizePlacement', knightID, endID);  // subscribed by ui.js
             }
             if (currentState === 3) {
-                let knightCoords = getCoords(knight.id);
-                let endCoords = getCoords(end.id);
+                let knightCoords = getCoords(knight);
+                let endCoords = getCoords(end);
                 events.publish('travailBoard', knightCoords, endCoords);    // subscribed by knights.js
             }
             if (currentState === 4) {
