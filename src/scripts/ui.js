@@ -186,10 +186,7 @@ const ui = (() => {
             knight.src = iconsArray['knight-green'];
         }
     }
-    function clearBoard(knightID, endID) {
-        if (topLayer.classList.contains('randomizing')) {
-            // topLayer.classList.remove('randomizing');
-        }
+    function clearBoard(knightID, endID, idArray) {
         if (knightID !== undefined) {
             middleLayer.removeChild(middleLayer.children[0]);
             removeKnightClass(knightID);
@@ -197,11 +194,15 @@ const ui = (() => {
         if (endID !== undefined) {
             removeEndClass(endID);
         }
+        if (idArray !== undefined) {
+            removeStepHighlight(idArray);
+        }
         resetMovesCount();
     }
     // path methods
     function displayPath(steps, idArray) {
         displayMoves(steps);
+        addStepHighlight(idArray);
     }
     function displayMoves(steps) {
         if (String(steps).length < 2) {
@@ -213,6 +214,18 @@ const ui = (() => {
         }
         text.push(steps);
         movesCount.textContent = text.join('');
+    }
+    function addStepHighlight(idArray) {
+        for (let i = 1; i < (idArray.length - 1); i++) {
+            let cell = getBottomCell(idArray[i]);
+            cell.classList.add('traversed');
+        }
+    }
+    function removeStepHighlight(idArray) {
+        for (let i = 1; i < (idArray.length - 1); i++) {
+            let cell = getBottomCell(idArray[i]);
+            cell.classList.remove('traversed');
+        }
     }
     function resetMovesCount() {
         let text = [...movesCount.textContent];

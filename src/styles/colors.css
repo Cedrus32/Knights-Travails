@@ -7,7 +7,8 @@ button {
 button,
 #moves,
 .hover-true .cell:hover,
-.knight-placed {
+.knight-placed,
+.traversed {
     border: 2px solid #7EAD40;
 }
 

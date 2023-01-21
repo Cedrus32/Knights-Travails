@@ -57,6 +57,7 @@ const logic = (() => {
                 _Knight.path = currentMove;
                 _Knight.steps = currentMove.step;
                 let moveCoords = formatMoveCoords(_Knight.path);
+                events.publish('logPathSteps', moveCoords); // subscribed by state.js
                 events.publish('displayPath', _Knight.steps, moveCoords); // subscribed by ui.js
                 queue = [];
                 return;

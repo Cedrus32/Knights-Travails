@@ -10,6 +10,7 @@ const state = (() => {
     let endPlaced = false;
     let knight;
     let end;
+    let pathSteps;
 
     // methods
     function updateGameState(value) {
@@ -40,11 +41,12 @@ const state = (() => {
                 events.publish('travailBoard', knightCoords, endCoords);    // subscribed by logic.js
             }
             if (currentState === 4) {
-                events.publish('clearBoard', knight, end); // subscribed by ui.js
+                events.publish('clearBoard', knight, end, pathSteps); // subscribed by ui.js
                 knightPlaced = false;
                 endPlaced = false;
                 knight = undefined;
                 end = undefined;
+                pathSteps = undefined;
             }
         }
     }
@@ -87,11 +89,15 @@ const state = (() => {
         }
         return id;
     }
+    function logPathSteps(steps) {
+        pathSteps = steps;
+    }
 
     // event subscriptions
     events.subscribe('updateGameState', updateGameState);   // published by ui.js
     events.subscribe('checkKnight', checkKnight); // published by ui.js
     events.subscribe('checkEnd', checkEnd);   // published by ui.js
+    events.subscribe('logPathSteps', logPathSteps); // subscribed by state.js
 
 })();
 
