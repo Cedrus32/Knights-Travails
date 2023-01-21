@@ -54,24 +54,19 @@ main {
 
         #bottom,
         #middle,
-        #top {
+        #top,
+        img,
+        .cell::after {
             position: absolute;
             top: 8px;
             left: 8px;
         }
 
-        /* #bottom,
-        #middle,
-        #top, */
         .cell::after {
-            position: absolute;
             top: 0px;
             left: 0px;
         }
 
         .cell::after {
             content: '';
-            /* position: absolute; */
-            /* top: 0px;
-            left: 0px; */
         }

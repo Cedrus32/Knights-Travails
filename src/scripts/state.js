@@ -31,15 +31,13 @@ const state = (() => {
             if (currentState === 2) {
                 let knightID = randomizeID();
                 let endID = randomizeID();
-                events.publish('randomizeOn', knightID, endID);  // subscribed by ui.js
-            }
-            if (previousState === 2) {
-                events.publish('randomizeOff', '');
+                checkKnight(knightID);
+                checkEnd(endID);
             }
             if (currentState === 3) {
                 let knightCoords = getCoords(knight);
                 let endCoords = getCoords(end);
-                events.publish('travailBoard', knightCoords, endCoords);    // subscribed by knights.js
+                events.publish('travailBoard', knightCoords, endCoords);    // subscribed by logic.js
             }
             if (currentState === 4) {
                 events.publish('clearBoard', knight, end); // subscribed by ui.js
@@ -56,7 +54,7 @@ const state = (() => {
                 knightPlaced = true;
             }
             if (knight !== undefined) {
-                events.publish('removeKnight', knight);   // subscribed by ui.js   
+                events.publish('removeKnightClass', knight);   // subscribed by ui.js   
             }
             knight = id;
             events.publish('placeKnight', knight);  // subscribed by ui.js

@@ -2,7 +2,7 @@ import events from './events.js';
 
 // & logic for knight's travails
 
-const knights = (() => {
+const logic = (() => {
     // factories
     function buildGameboard() { // used to verify legal moves
         let gameboard = [];
@@ -57,7 +57,7 @@ const knights = (() => {
                 _Knight.path = currentMove;
                 _Knight.steps = currentMove.step;
                 let moveCoords = formatMoveCoords(_Knight.path);
-                events.publish('animateMoves', _Knight.steps, moveCoords); // subscribed by ui.js
+                events.publish('displayPath', _Knight.steps, moveCoords); // subscribed by ui.js
                 queue = [];
                 return;
             // go to next moves
@@ -118,4 +118,4 @@ const knights = (() => {
     
 })();
 
-export default knights;
+export default logic;

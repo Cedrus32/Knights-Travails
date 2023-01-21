@@ -8,6 +8,7 @@ const ui = (() => {
     // cache DOM
     let controlContainer = document.getElementById('controls');
     let controlButtons;  // cached after creation
+    let movesCount; // cached after creation
     let gameboard = document.getElementById('board');
     let bottomLayer;
     let middleLayer;
@@ -30,6 +31,7 @@ const ui = (() => {
     function init() {
         genControls();
         controlButtons = document.querySelectorAll('button');
+        movesCount = document.getElementById('moves');
         genBoard();
     }
     function genControls() {
@@ -51,10 +53,6 @@ const ui = (() => {
         }
     }
     function genBoard() {
-        // ^ bottom layer -- colored board where cell styles (board/background) & placement classes are applied
-        // ^ middle layer -- single transparent layer where knight lives
-        // ^ top layer -- transparent board where clicks are captured
-        
         bottomLayer = createGridLayer('#bottom');
         middleLayer = create.div('', '#middle');
         topLayer = createGridLayer('#top');
@@ -118,19 +116,15 @@ const ui = (() => {
     }
     function addBoardClicks(placementType) {
         if (placementType == 0) {
-            // topLayer.classList.add('placing-knight');
             topLayer.addEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            // topLayer.classList.add('placing-end');
             topLayer.addEventListener('click', checkEnd);
         }
     }
     function removeBoardClicks(placementType) {
         if (placementType == 0) {
-            // topLayer.classList.remove('placing-knight');
             topLayer.removeEventListener('click', checkKnight);
         } else if (placementType == 1) {
-            // topLayer.classList.remove('placing-end');
             topLayer.removeEventListener('click', checkEnd);
         }
     }
@@ -151,28 +145,28 @@ const ui = (() => {
         if (cell.classList.length > 2) {
             formatDoublePlacement(cell);
         }
-        // cell.append(knight);    // ! append to middle layer
         if (middleLayer.children.length === 0) {
             middleLayer.append(knight);
-        } else {
-            changeKnightPosition();
         }
+        setKnightPosition(cellID);
     }
-    function placeEnd(cellID) {
+    function removeKnightClass(cellID) {
+        let cell = getBottomCell(cellID);
+        cell.classList.remove('knight-placed');
+    }
+    function setKnightPosition(id) {
+        console.log('*** change knight position ***');
+        knight.style.top = `calc((${id[1]} * 10vh) + 4px)`;
+        knight.style.left = `calc((${id[0]} * 10vh) + 4px)`;
+    }
+    function placeEndClass(cellID) {
         let cell = getBottomCell(cellID);
         cell.classList.add('end-placed');
         if (cell.classList.length > 3) {
             formatDoublePlacement(cell);
         }
     }
-    function removeKnightClass(cellID) {
-        let cell = getBottomCell(cellID);
-        cell.classList.remove('knight-placed');
-    }
-    function changeKnightPosition() {
-        console.log('*** change knight position ***');
-    }
-    function removeEnd(cellID) {
+    function removeEndClass(cellID) {
         let cell = getBottomCell(cellID);
         cell.classList.remove('end-placed');
         if (cell.classList.length > 2) {
@@ -201,23 +195,30 @@ const ui = (() => {
             removeKnightClass(knightID);
         }
         if (endID !== undefined) {
-            removeEnd(endID);
+            removeEndClass(endID);
         }
+        resetMovesCount();
     }
-    function enableRandomPlacement(knightID, endID) {
-        // topLayer.classList.add('randomizing');
-        events.publish('checkKnight', knightID);  // subscribed by state.ui
-        events.publish('checkEnd', endID);    // subscribed by state.ui
+    // path methods
+    function displayPath(steps, idArray) {
+        displayMoves(steps);
     }
-    function disableRandomPlacement() {
-        topLayer.classList.remove('randomizing');
+    function displayMoves(steps) {
+        if (String(steps).length < 2) {
+            steps = '0' + steps;
+        }
+        let text = [...movesCount.textContent];
+        for (let i = 0; i < (String(steps).length); i++) {
+            text.splice((text.length - 1), 1);
+        }
+        text.push(steps);
+        movesCount.textContent = text.join('');
     }
-    // animate methods
-    function animateMoves(steps, idArray) {
-        console.log(steps, idArray);
-        // ^ for items in idArray...
-            // ^ increment move count
-            // ^ change knight position to cell id
+    function resetMovesCount() {
+        let text = [...movesCount.textContent];
+        text.splice(text.length - 2, 2);
+        text.push('--');
+        movesCount.textContent = text.join('');
     }
 
     // event subscriptions
@@ -225,13 +226,11 @@ const ui = (() => {
     events.subscribe('placementOn', addBoardClicks);   // published by state.js
     events.subscribe('placementOff', removeBoardClicks);    // published by state.js
     events.subscribe('placeKnight', placeKnight);   // published by state.js
-    events.subscribe('placeEnd', placeEnd); // published by state.js
-    events.subscribe('removeKnight', removeKnightClass); // published by state.js
-    events.subscribe('removeEnd', removeEnd);   // published by state.js
+    events.subscribe('removeKnightClass', removeKnightClass); // published by state.js
+    events.subscribe('placeEnd', placeEndClass); // published by state.js
+    events.subscribe('removeEnd', removeEndClass);   // published by state.js
     events.subscribe('clearBoard', clearBoard); // published by state.js
-    events.subscribe('randomizeOn', enableRandomPlacement); // published by state.js
-    events.subscribe('randomizeOff', disableRandomPlacement); // published by state.js
-    events.subscribe('animateMoves', animateMoves); // published by state.js
+    events.subscribe('displayPath', displayPath); // published by logic.js
 
     // make public
     return {
