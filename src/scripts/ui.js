@@ -227,16 +227,20 @@ const ui = (() => {
     }
     // path methods
     function displayPath(steps, idArray) {
-        knight.classList.add('animate');
-        let i = 1;
-        let moveInterval = setInterval(() => {
-            if (i > steps) {
-                clearInterval(moveInterval);
-            } else {
-                changeKnightPosition(idArray[i], i);
-                i++;
-            }
-        }, 1000);
+        if (steps === 0) {
+            updateMovesCount(steps);
+        } else {
+            knight.classList.add('animate');
+            let i = 1;
+            let moveInterval = setInterval(() => {
+                if (i > steps) {
+                    clearInterval(moveInterval);
+                } else {
+                    changeKnightPosition(idArray[i], i);
+                    i++;
+                }
+            }, 1000);
+        }
     }
     function updateMovesCount(step) {
         if (String(step).length < 2) {

@@ -71,7 +71,7 @@ const logic = (() => {
         }
     }
 
-    // methods
+    // support methods
     function getNextMoves(coord, gameboard) {
         let x = coord[0];
         let y = coord[1];
