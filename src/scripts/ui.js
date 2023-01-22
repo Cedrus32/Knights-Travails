@@ -156,11 +156,11 @@ const ui = (() => {
         let cell = getBottomCell(id);
         formatDoublePlacement(cell);
     }
-    function changeKnightPosition(id) {
+    function changeKnightPosition(id, step) {
         let j = 0;
-        let intervalSub = setInterval(() => {
+        let legInterval = setInterval(() => {
             if (j === 2) {
-                clearInterval(intervalSub);
+                clearInterval(legInterval);
             } else {
                 if (j === 0) {
                     knight.style.left = `calc((${id[0]} * 10vh) + 4px)`;
@@ -168,13 +168,15 @@ const ui = (() => {
                     knight.style.top = `calc((${id[1]} * 10vh) + 4px)`;
                     setTimeout(() => {
                         let cell = getBottomCell(id);
-                        console.log(cell);
                         formatDoublePlacement(cell);
-                    }, 750);
+                        addStepHighlight(id);
+                        updateMovesCount(step);
+                    }, 250);
                 }
                 j++;
             }
-        }, 750);
+        }, 500);
+
     }
     function removeKnightClass(cellID) {
         let cell = getBottomCell(cellID);
@@ -215,6 +217,9 @@ const ui = (() => {
     }
     function clearBoard(knightID, endID, idArray) {
         if (knightID !== undefined) {
+            if (knight.classList.contains('animate')) {
+                knight.classList.remove('animate');
+            }
             middleLayer.removeChild(middleLayer.children[0]);
             removeKnightClass(knightID);
         }
@@ -223,48 +228,32 @@ const ui = (() => {
         }
         if (idArray !== undefined) {
             removeStepHighlight(idArray);
-            // removePathLines(idArray);
         }
         resetMovesCount();
     }
     // path methods
     function displayPath(steps, idArray) {
-        // ^ for each cell in idArray...
-            // ^ first move knight x && draw line
-            // ^ then move knight y && draw line
-            // ^ then highlight bottom cell
         console.log(steps, idArray);
         knight.classList.add('animate');
         let i = 1;
-        let intervalMain = setInterval(() => {
+        let moveInterval = setInterval(() => {
             if (i > steps) {
-                clearInterval(intervalMain);
+                clearInterval(moveInterval);
             } else {
-                if (i < steps) {
-                    // addStepHighlight(idArray[i]);
-                    // addStepLines();
-                }
-                // setKnightPosition(idArray[i]);
-                changeKnightPosition(idArray[i]);
-                // if (i === steps) {
-                //     let cell = getBottomCell(idArray[steps]);
-                //     console.log(cell);
-                //     formatDoublePlacement(cell);
-                // }
-                // updateMovesCount(steps) // ! increment
+                changeKnightPosition(idArray[i], i);
                 i++;
             }
-        }, 2250);
+        }, 1000);
     }
-    function updateMovesCount(steps) {
-        if (String(steps).length < 2) {
-            steps = '0' + steps;
+    function updateMovesCount(step) {
+        if (String(step).length < 2) {
+            step = '0' + step;
         }
         let text = [...movesCount.textContent];
-        for (let i = 0; i < (String(steps).length); i++) {
+        for (let i = 0; i < (String(step).length); i++) {
             text.splice((text.length - 1), 1);
         }
-        text.push(steps);
+        text.push(step);
         movesCount.textContent = text.join('');
     }
     function resetMovesCount() {
@@ -274,21 +263,16 @@ const ui = (() => {
         movesCount.textContent = text.join('');
     }
     function addStepHighlight(id) {
-        for (let i = 1; i < (idArray.length - 1); i++) {
-            let cell = getBottomCell(idArray[i]);
-            cell.classList.add('traversed');
-        }
+        let cell = getBottomCell(id);
+        cell.classList.add('traversed');
     }
-    function removeStepHighlight(id) {
-        for (let i = 1; i < (idArray.length - 1); i++) {
+    function removeStepHighlight(idArray) {
+        console.log(idArray);
+        for (let i = 1; i < (idArray.length); i++) {
             let cell = getBottomCell(idArray[i]);
             cell.classList.remove('traversed');
         }
     }
-    // function addStepLines(idArray) {
-    // }
-    // function removeStepLines(id) {
-    // }
 
     // event subscriptions
     events.subscribe('updateButtons', updateButtons);   // published by state.js

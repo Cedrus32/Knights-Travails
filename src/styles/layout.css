@@ -64,7 +64,7 @@ main {
 
         .animate {
             transition-property: top, left;
-            transition-duration: 0.75s;
+            transition-duration: 0.5s;
             transition-timing-function: ease-in-out;
         }
 
