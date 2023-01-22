@@ -38,6 +38,11 @@ const create = (() => {
         element.alt = alt;
         return element;
     }
+    const line = function(direction) {
+        element = document.createElement('div');
+        element.classList.add(`${direction}-line`);
+        return element;
+    }
 
     // helpers
     function _setAttributes(element, attributes) {
@@ -54,6 +59,7 @@ const create = (() => {
         button,    // used by ui.js
         div,    // used by ui.js
         img,    // used by ui.js
+        line,   // used by ui.js
     }
 
 })();

@@ -150,14 +150,15 @@ const ui = (() => {
         }
         setKnightPosition(cellID);
     }
+    function setKnightPosition(id) {
+        knight.style.top = `calc((${id[1]} * 10vh) + 4px)`;
+        knight.style.left = `calc((${id[0]} * 10vh) + 4px)`;
+        let cell = getBottomCell(id);
+        formatDoublePlacement(cell);
+    }
     function removeKnightClass(cellID) {
         let cell = getBottomCell(cellID);
         cell.classList.remove('knight-placed');
-    }
-    function setKnightPosition(id) {
-        console.log('*** change knight position ***');
-        knight.style.top = `calc((${id[1]} * 10vh) + 4px)`;
-        knight.style.left = `calc((${id[0]} * 10vh) + 4px)`;
     }
     function placeEndClass(cellID) {
         let cell = getBottomCell(cellID);
@@ -196,15 +197,43 @@ const ui = (() => {
         }
         if (idArray !== undefined) {
             removeStepHighlight(idArray);
+            // removePathLines(idArray);
         }
         resetMovesCount();
     }
     // path methods
     function displayPath(steps, idArray) {
-        displayMoves(steps);
-        addStepHighlight(idArray);
+        // ^ for each cell in idArray...
+            // ^ first move knight x && draw line
+            // ^ then move knight y && draw line
+            // ^ then highlight bottom cell
+        // ^ if last id in array
+            // ^ format double placement
+        knight.classList.add('animate');
+        let i = 0;
+        let interval = setInterval(() => {
+            if (i > (steps)) {
+                clearInterval(interval);
+            } else {
+                // updateMovesCount(steps) // ! increment
+                if (i > 0 && i < steps) {
+                    // addStepHighlight(idArray[i]);
+                    // addStepLines();
+                }
+                setKnightPosition(idArray[i]);
+                i++;
+            }
+        }, 2500);
+        // var i = 0;
+        // var intervalId = setInterval(function(){
+            // if(i === 10){
+            //     clearInterval(intervalId);
+            // }
+            // console.log(i);
+            // i++;
+        // }, 1000);
     }
-    function displayMoves(steps) {
+    function updateMovesCount(steps) {
         if (String(steps).length < 2) {
             steps = '0' + steps;
         }
@@ -215,24 +244,28 @@ const ui = (() => {
         text.push(steps);
         movesCount.textContent = text.join('');
     }
-    function addStepHighlight(idArray) {
-        for (let i = 1; i < (idArray.length - 1); i++) {
-            let cell = getBottomCell(idArray[i]);
-            cell.classList.add('traversed');
-        }
-    }
-    function removeStepHighlight(idArray) {
-        for (let i = 1; i < (idArray.length - 1); i++) {
-            let cell = getBottomCell(idArray[i]);
-            cell.classList.remove('traversed');
-        }
-    }
     function resetMovesCount() {
         let text = [...movesCount.textContent];
         text.splice(text.length - 2, 2);
         text.push('--');
         movesCount.textContent = text.join('');
     }
+    function addStepHighlight(id) {
+        for (let i = 1; i < (idArray.length - 1); i++) {
+            let cell = getBottomCell(idArray[i]);
+            cell.classList.add('traversed');
+        }
+    }
+    function removeStepHighlight(id) {
+        for (let i = 1; i < (idArray.length - 1); i++) {
+            let cell = getBottomCell(idArray[i]);
+            cell.classList.remove('traversed');
+        }
+    }
+    // function addStepLines(idArray) {
+    // }
+    // function removeStepLines(id) {
+    // }
 
     // event subscriptions
     events.subscribe('updateButtons', updateButtons);   // published by state.js

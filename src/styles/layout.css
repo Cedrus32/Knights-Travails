@@ -62,6 +62,14 @@ main {
             left: 8px;
         }
 
+        .animate {
+            animation-name: animate;
+        }
+
+        @keyframes animate {
+
+        }
+
         .cell::after {
             top: 0px;
             left: 0px;
