@@ -63,11 +63,9 @@ main {
         }
 
         .animate {
-            animation-name: animate;
-        }
-
-        @keyframes animate {
-
+            transition-property: top, left;
+            transition-duration: 0.75s;
+            transition-timing-function: ease-in-out;
         }
 
         .cell::after {

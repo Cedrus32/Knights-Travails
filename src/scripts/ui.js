@@ -156,6 +156,25 @@ const ui = (() => {
         let cell = getBottomCell(id);
         formatDoublePlacement(cell);
     }
+    function changeKnightPosition(id) {
+        let j = 0;
+        let intervalSub = setInterval(() => {
+            if (j === 2) {
+                clearInterval(intervalSub);
+            } else {
+                if (j === 0) {
+                    // ^ change x position
+                    knight.style.left = `calc((${id[0]} * 10vh) + 4px)`;
+                } else if (j === 1) {
+                    // ^ change y position
+                    knight.style.top = `calc((${id[1]} * 10vh) + 4px)`;
+                    let cell = getBottomCell(id);
+                    formatDoublePlacement(cell);
+                }
+                j++;
+            }
+        }, 750);
+    }
     function removeKnightClass(cellID) {
         let cell = getBottomCell(cellID);
         cell.classList.remove('knight-placed');
@@ -207,31 +226,25 @@ const ui = (() => {
             // ^ first move knight x && draw line
             // ^ then move knight y && draw line
             // ^ then highlight bottom cell
-        // ^ if last id in array
-            // ^ format double placement
+        console.log(steps, idArray);
         knight.classList.add('animate');
         let i = 0;
-        let interval = setInterval(() => {
+        let intervalMain = setInterval(() => {
             if (i > (steps)) {
-                clearInterval(interval);
+                clearInterval(intervalMain);
             } else {
-                // updateMovesCount(steps) // ! increment
                 if (i > 0 && i < steps) {
                     // addStepHighlight(idArray[i]);
                     // addStepLines();
                 }
-                setKnightPosition(idArray[i]);
+                if (i > 0) {
+                    // setKnightPosition(idArray[i]);
+                    changeKnightPosition(idArray[i]);
+                }
+                // updateMovesCount(steps) // ! increment
                 i++;
             }
-        }, 2500);
-        // var i = 0;
-        // var intervalId = setInterval(function(){
-            // if(i === 10){
-            //     clearInterval(intervalId);
-            // }
-            // console.log(i);
-            // i++;
-        // }, 1000);
+        }, 2250);
     }
     function updateMovesCount(steps) {
         if (String(steps).length < 2) {
