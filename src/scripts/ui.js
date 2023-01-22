@@ -163,13 +163,14 @@ const ui = (() => {
                 clearInterval(intervalSub);
             } else {
                 if (j === 0) {
-                    // ^ change x position
                     knight.style.left = `calc((${id[0]} * 10vh) + 4px)`;
                 } else if (j === 1) {
-                    // ^ change y position
                     knight.style.top = `calc((${id[1]} * 10vh) + 4px)`;
-                    let cell = getBottomCell(id);
-                    formatDoublePlacement(cell);
+                    setTimeout(() => {
+                        let cell = getBottomCell(id);
+                        console.log(cell);
+                        formatDoublePlacement(cell);
+                    }, 750);
                 }
                 j++;
             }
@@ -200,7 +201,13 @@ const ui = (() => {
         return cell;
     }
     function formatDoublePlacement(cell) {
-        if (cell.classList.length === 4) {
+        // if (cell.classList.length === 4) {
+        //     knight.src = iconsArray['knight-purple'];
+        // } else {
+        //     knight.src = iconsArray['knight-green'];
+        // }
+        console.log(cell);
+        if (cell.classList.contains('end-placed')) {
             knight.src = iconsArray['knight-purple'];
         } else {
             knight.src = iconsArray['knight-green'];
@@ -228,19 +235,22 @@ const ui = (() => {
             // ^ then highlight bottom cell
         console.log(steps, idArray);
         knight.classList.add('animate');
-        let i = 0;
+        let i = 1;
         let intervalMain = setInterval(() => {
-            if (i > (steps)) {
+            if (i > steps) {
                 clearInterval(intervalMain);
             } else {
-                if (i > 0 && i < steps) {
+                if (i < steps) {
                     // addStepHighlight(idArray[i]);
                     // addStepLines();
                 }
-                if (i > 0) {
-                    // setKnightPosition(idArray[i]);
-                    changeKnightPosition(idArray[i]);
-                }
+                // setKnightPosition(idArray[i]);
+                changeKnightPosition(idArray[i]);
+                // if (i === steps) {
+                //     let cell = getBottomCell(idArray[steps]);
+                //     console.log(cell);
+                //     formatDoublePlacement(cell);
+                // }
                 // updateMovesCount(steps) // ! increment
                 i++;
             }
