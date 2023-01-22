@@ -203,12 +203,6 @@ const ui = (() => {
         return cell;
     }
     function formatDoublePlacement(cell) {
-        // if (cell.classList.length === 4) {
-        //     knight.src = iconsArray['knight-purple'];
-        // } else {
-        //     knight.src = iconsArray['knight-green'];
-        // }
-        console.log(cell);
         if (cell.classList.contains('end-placed')) {
             knight.src = iconsArray['knight-purple'];
         } else {
@@ -233,7 +227,6 @@ const ui = (() => {
     }
     // path methods
     function displayPath(steps, idArray) {
-        console.log(steps, idArray);
         knight.classList.add('animate');
         let i = 1;
         let moveInterval = setInterval(() => {
@@ -267,7 +260,6 @@ const ui = (() => {
         cell.classList.add('traversed');
     }
     function removeStepHighlight(idArray) {
-        console.log(idArray);
         for (let i = 1; i < (idArray.length); i++) {
             let cell = getBottomCell(idArray[i]);
             cell.classList.remove('traversed');
