@@ -11,7 +11,7 @@ const controls = [
 
 // NOTE: ? watch screen width, toggle small-width styling to <menu> as needed
 
-const returnElement = (control, i) => {
+function returnElement(control, i) {
     if (i < 2) {
         return (
             <li key={i}>
