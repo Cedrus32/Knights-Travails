@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import ActionLog from '../components/ActionLog';
 import Controls from '../components/Controls';
 import Gameboard from '../components/Gameboard';
 
@@ -11,6 +12,7 @@ const App = () => {
     return (
         <>
             <Controls />
+            <ActionLog />
             <Gameboard />
         </>
     )
