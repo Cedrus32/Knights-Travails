@@ -7,7 +7,7 @@ const ActionLog = () => {
     }, []);
 
     return (
-        <section aria-label='board information'>
+        <section id='log' aria-label='board information'>
             <output className='hidden' aria-label='start'></output>
             <output className='hidden' aria-label='end'></output>
             <span className='hidden' aria-label='game status' role='status'></span>

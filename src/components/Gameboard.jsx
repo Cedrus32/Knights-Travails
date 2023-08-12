@@ -48,7 +48,7 @@ const Gameboard = () => {
     });
 
     return (
-        <section aria-label='game board'>
+        <section id='board' aria-label='game board'>
             {generateGrid('base')}
             <div className='tray'></div>
             {generateGrid('ui')}

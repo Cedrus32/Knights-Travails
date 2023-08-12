@@ -26,3 +26,25 @@ body {
 * {
     font-family: 'Roboto Mono', monospace;
 }
+
+/* LAYOUT */
+
+#root {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'controls log'
+                         'controls board';
+}
+
+menu {
+    grid-area: controls;
+}
+
+#log {
+    grid-area: log;
+}
+
+#board {
+    grid-area: board;
+}
