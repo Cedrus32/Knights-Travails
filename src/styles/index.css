@@ -1,0 +1,28 @@
+/* GLOBALS */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+:root {
+    --main: #282C7A;
+    --light: #383D94;
+    --dark: #252861;
+    --accent: #7EAD40;
+    --hover: #3B4B6E;
+    --disabled: #4B5968;
+}
+
+/* COLORS */
+
+body {
+    background-color: var(--main);
+}
+
+* {
+    color: var(--accent);
+}
+
+/* TYPO */
+
+* {
+    font-family: 'Roboto Mono', monospace;
+}
