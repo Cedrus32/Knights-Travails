@@ -1,0 +1,46 @@
+/* GLOBALS */
+
+:root {
+    --cell-length: 10vh;
+    --board-padding: 8px;
+    --board-border: 8px;
+}
+
+/* COLORS */
+
+#board {
+    border: var(--board-border) solid var(--accent);
+}
+
+.light {
+    background-color: var(--light);
+}
+
+.dark {
+    background-color: var(--dark);
+}
+
+/* LAYOUT */
+
+#board,
+#board > div,
+.row {
+    display: flex;
+}
+
+#board {
+    position: relative;
+    height: calc(calc(8 * var(--cell-length)) + calc(4 * var(--board-padding)));
+    width: calc(calc(8 * var(--cell-length)) + calc(4 * var(--board-padding)));
+    padding: var(--board-padding);
+}
+
+#board > div {
+    flex-flow: column;
+    position: absolute;
+}
+
+.cell {
+    height: var(--cell-length);
+    width: var(--cell-length);
+}
