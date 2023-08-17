@@ -1,0 +1,23 @@
+/* COLORS & DECORATIONS */
+
+input,
+button {
+    background-color: var(--main);
+    border: 2px solid var(--accent);
+}
+
+label {
+    background-color: var(--accent);
+    color: var(--main);
+}
+
+li {
+    list-style: none;
+}
+
+/* LAYOUT */
+
+input,
+button {
+    padding: 0.5em;
+}

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import '../styles/controls.css';
 
 const controls = [
     {name: 'place knight', id: 'start'},
@@ -10,22 +11,13 @@ const controls = [
 ];
 
 // NOTE: ? watch screen width, toggle small-width styling to <menu> as needed
+// <label htmlFor={control.id}>{control.name}</label>
+// <input type='text' id={control.id}></input>
+// <button type='button'>{control.name}</button>
 
-function returnElement(control, i) {
-    if (i < 2) {
-        return (
-            <li key={i}>
-                <label htmlFor={control.id}>{control.name}</label>
-                <input type='text' id={control.id}></input>
-            </li>
-        )
-    } else {
-        return (
-            <li key={i}>
-                <button type='button'>{control.name}</button>
-            </li>
-        )
-    }
+function generateSet(controlSet) {
+    console.log(controlSet);
+
 }
 
 const Controls = () => {
@@ -35,8 +27,9 @@ const Controls = () => {
     }, [])
 
     return (
-        <menu>
-            {controls.map((control, i) => returnElement(control, i))}
+        <menu role='menubar' aria-labelledby='Controls' aria-orientation='vertical'>
+            <label>Controls</label>
+            {controls.map(set => generateSet(set))}
         </menu>
     )
 };
