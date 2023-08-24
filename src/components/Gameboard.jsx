@@ -8,7 +8,7 @@ function generateGrid(className) {
         for (let x = 0; x < 8; x++) {
             let classNames = 'cell';
             if (className === 'base') {
-                console.log(classNames);
+                // console.log(classNames);
                 if (y === 0 || y % 2 === 0) {
                     // light-dark row
                     if (x === 0 || x % 2 === 0) {
@@ -29,7 +29,7 @@ function generateGrid(className) {
         }
     }
 
-    console.log(grid);
+    // console.log(grid);
     return (
         <div className={className}>
             {grid.map((row, i) => (
