@@ -6,7 +6,23 @@ button {
     border: 2px solid var(--accent);
 }
 
-label {
+button:hover,
+button:target,
+button:active {
+    background-color: var(--hover);
+}
+
+input:disabled,
+button:disabled {
+    color: var(--disabled);
+    border-color: var(--disabled);
+}
+
+button:disabled:hover {
+    background-color: var(--main);
+}
+
+menu > label {
     background-color: var(--accent);
     color: var(--main);
 }
@@ -15,9 +31,59 @@ li {
     list-style: none;
 }
 
+/* TYPO */
+
+#place label {
+    display: inline;
+    line-height: 2.5em;
+    vertical-align: middle;
+}
+
+menu > label {
+    text-align: center;
+}
+
 /* LAYOUT */
+
+menu,
+menu > li ul,
+#place li {
+    display: flex;
+}
+
+menu,
+#place {
+    flex-flow: column;
+}
+
+menu {
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#place li {
+    justify-content: center;
+    align-items: center;
+}
+
+menu > li ul,
+#place li,
+#play {
+    gap: 1em;
+}
+
+menu label,
+li,
+button {
+    width: 100%;
+}
 
 input,
 button {
     padding: 0.5em;
+    height: 2.5em;
+}
+
+#play button {
+    height: 9em;
 }

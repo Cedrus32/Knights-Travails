@@ -32,11 +32,14 @@ function generateSet(controlSet, index) {
     if (controlSet.group === 'choose placement' || controlSet.group === 'show moves') {
         let tools = [];
         let orientation;
+        let setId;
         controlSet.elements.forEach((item, i) => {
-            if (controlSet.group === 'place') {
+            if (controlSet.group === 'choose placement') {
                 orientation = 'vertical';
+                setId = 'place';
             } else {
                 orientation = 'horizontal';
+                setId = 'play';
             }
             if (item.id) {
                 tools.push(
@@ -54,7 +57,7 @@ function generateSet(controlSet, index) {
             }
         });
         controls.push(
-            <ul key={controlSet.group} role='toolset' aria-label={controlSet.group} aria-orientation={orientation}>
+            <ul key={controlSet.group} id={setId} role='toolset' aria-label={controlSet.group} aria-orientation={orientation}>
                 {tools}
             </ul>
         );
