@@ -1,7 +1,8 @@
 /* GLOBALS */
 
 :root {
-    --cell-length: 10vh;
+    --cell-large: 10vh;
+    --cell-small: 7vw;
     --board-padding: 8px;
     --board-border: 8px;
 }
@@ -30,8 +31,8 @@
 
 #board {
     position: relative;
-    height: calc(calc(8 * var(--cell-length)) + calc(4 * var(--board-padding)));
-    width: calc(calc(8 * var(--cell-length)) + calc(4 * var(--board-padding)));
+    height: calc(calc(8 * var(--cell-large)) + calc(4 * var(--board-padding)));
+    width: calc(calc(8 * var(--cell-large)) + calc(4 * var(--board-padding)));
     padding: var(--board-padding);
 }
 
@@ -41,6 +42,18 @@
 }
 
 .cell {
-    height: var(--cell-length);
-    width: var(--cell-length);
+    height: var(--cell-large);
+    width: var(--cell-large);
+}
+
+@media screen and (max-width: 1374px) {
+    #board {
+        height: calc(calc(8 * var(--cell-small)) + calc(4 * var(--board-padding)));
+        width: calc(calc(8 * var(--cell-small)) + calc(4 * var(--board-padding)));
+    }
+
+    .cell {
+        height: var(--cell-small);
+        width: var(--cell-small);
+    }
 }

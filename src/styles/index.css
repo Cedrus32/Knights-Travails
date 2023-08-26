@@ -52,3 +52,13 @@ menu {
     grid-area: board;
     margin-right: auto;
 }
+
+@media screen and (max-width: 1374px) {
+    #root {
+        grid-template-columns: auto;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas: 'log'
+                             'board'
+                             'controls'
+    }
+}
